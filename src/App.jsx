@@ -2,6 +2,10 @@
 
 
 
+
+
+
+
 import React, { useState,Suspense, useEffect } from 'react'
 import {Routes,Route, useLocation, createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -29,6 +33,8 @@ import Showdata from './Compunnent/Showdata'
 function App() {
  
   const {posts} = useSelector(store=>store.pose);
+  const togole=useSelector((state)=>state.post.value)
+  console.log(togole)
 console.log(posts)
   const user=useSelector((state)=>state.profile.user)
   console.log(user)
@@ -40,10 +46,8 @@ const dispatch=useDispatch()
     <div className=''>
 
 
-{
-user?
-<div>
-   <SideBar/> 
+{togole?<div>
+<SideBar/> 
   <Myprofile/>
      <Routes>
 
@@ -61,9 +65,13 @@ user?
 
 
   </Routes>  
-</div>:"loading..."
 
-}
+</div>:
+<div>
+
+<Login/>
+
+</div>}
   </div> 
 
 
@@ -71,6 +79,16 @@ user?
 }
 
 export default App
+
+
+
+
+
+
+
+
+
+
 
 
 
