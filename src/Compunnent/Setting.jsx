@@ -101,7 +101,7 @@ const fetchdata1=async(e)=>{
   return (
     <div className='sm:ml-56  flex justify-center'>
       <div>
-<h1 className='flex font-serif '>UPDATE<IoMdSettings className='text-2xl text-green-500 animate-spin' /></h1>
+<h1 className='flex font-serif '>UPDATE<IoMdSettings className='text-2xl text-green-500' /></h1>
   <div>
     <form onSubmit={fetchdata1}>
       <h1></h1>
