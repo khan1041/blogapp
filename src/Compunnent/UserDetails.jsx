@@ -5,6 +5,12 @@
 
 
 
+
+
+
+
+
+
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
@@ -12,10 +18,6 @@ import { useParams } from 'react-router-dom'
 function UserDetails() {
    const[alldata,setallData]=useState("")
 const user=useSelector((state)=>state.profile.user)
-console.log(user)
-
-
- 
 
    const token=useSelector((state)=>state.post.tokens) 
    console.log(token)
@@ -26,7 +28,7 @@ console.log(user)
       const[userpost,setuserpsot]=useState([])
   
       const{id}=useParams()
-const[Unfollow,setUnfollow]=useState(false) 
+const[Unfollow,setUnfollow]=useState(user.following&&user.following.includes(alldata._id)|| false) 
 
   const viewprofile=async()=>{
   
@@ -42,10 +44,6 @@ const[Unfollow,setUnfollow]=useState(false)
           setallData(viewdata.viewuser)
           setfollowing(viewdata)
           console.log(viewdata)
-        
-
-
-  
       }
    } catch (error) {
       console.log(error)
@@ -61,16 +59,13 @@ const[Unfollow,setUnfollow]=useState(false)
 
 
 
-const userfollow=user.following&&user.following.includes(alldata._id)
+const [userfollow,setuserfollow]=useState(user.following&&user.following.includes(alldata._id)|| false)
 console.log(userfollow)
 
 
 
 useEffect(()=>{
-   const userfollow=user?.email//alldata&&alldata//following&&user.following.includes (alldata._id)
   setupdate(userfollow)
-
-
 },[])
 
 console.log(updatae)
@@ -79,7 +74,7 @@ console.log(updatae)
   const userpostby=async()=>{
 
   try {
-    const response=await fetch(`https://blog-app-gbau.onrender.com/auth/singalepost/${id}`,{
+    const response=await fetch(`https://blog-app-gbau.onrender.com/app/auth/singalepost/${id}`,{
       method:"get",
       headers:{
           Authorization:`Bearer${token}`
@@ -97,9 +92,11 @@ console.log(updatae)
   console.log(userpost)
   //
 
+  const togole=user.following&&user.following.includes(alldata._id)|| false
+
   const followunfollow=async(id)=>{
     try {
-      const response=await fetch(`http://localhost:8000/app/auth/follow/${id}`,{
+      const response=await fetch(`https://blog-app-gbau.onrender.com/app/auth/follow/${id}`,{
     method:"post",
     headers:{
       Authorization:`Bearer${token}`
@@ -107,26 +104,22 @@ console.log(updatae)
   })
   if(response.ok){
   const data=await response.json()
-  setUnfollow(data)
-setUnfollow(!Unfollow)
+  alert("done..")
+  setuserfollow(data)
+  setuserfollow(!userfollow)
 setupdate(!updatae)
-setlist(!list)
   }
 
    } catch (error) {
       console.log(error)
     }}
-   console.log(userpost)
 
   useEffect(()=>{
   viewprofile()
   userpostby()
       },[])
-console.log(list)
 
-const togole=list?user.following&&user.following.includes(alldata._id)||true:user.following&&user.following.includes(alldata._id)||false
-console.log(togole)
-  
+
   return (
     <div className=''>
       <div>
@@ -140,10 +133,8 @@ console.log(togole)
         <h1 className='font-medium'>{alldata.username}</h1>
        <h1>{alldata.email}</h1>
   
-        <form onSubmit={followunfollow}>
-         { togole? <button onClick={()=>followunfollow(alldata._id)} className='bg-gray-300 w-20 rounded text-[17px]'>Following</button>
+         {togole? <button onClick={()=>followunfollow(alldata._id)} className='bg-gray-300 w-20 rounded text-[17px]'>Following</button>
   :<button onClick={()=>followunfollow(alldata._id)} className='bg-blue-400 text-white rounded text-[18px] w-20'>Follow</button>}
-          </form>
    
        </div>
  
@@ -157,16 +148,13 @@ console.log(togole)
    {userpost.map((item)=>{
     console.log(item.title)
     return(
-      <div className='mt-3 bg-gray-950 w-64 '>
-              <img src={item.video} alt="" className='w-64 h-72 opacity-55'/>
+      <div className='mt-3 -950 w-64 '>
+              <img src={item.video} alt="" className='w-64 h-72 opacity-100'/>
 
       </div>
     )
   })} 
-
-
   </div>
-
 </div>
 
 </div>
@@ -175,3 +163,8 @@ console.log(togole)
 }
 
 export default UserDetails
+
+
+
+
+
